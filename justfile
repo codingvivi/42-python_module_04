@@ -5,12 +5,12 @@ name := "python_module_04"
 
 
 src-dir := root-dir / "src"
+data-dir := root-dir / "data"
 
 test_file_name := "ancient_fragment.txt"
-ex0-file := src-dir / "ex0" / test_file_name
-
-ex1-file := src-dir / "ex1" / test_file_name
+test-file := data-dir / test_file_name
 new_file_name := "new_fragment.txt"
+new-file := data-dir / new_file_name
 
 dist-dir := root-dir / "dist"
 stage-dir := dist-dir / name + "_turnin"
@@ -39,23 +39,41 @@ run-all:
 [group('run')]
 [group('test')]
 testrun0:
-    cat {{ex0-file}}
-    just run 0 
+    cat {{test-file}}
+    just run 0
+    @echo ""
+
     -just run 0 foo
+    @echo ""
+
     -just run 0 /etc/shadow
-    just run 0 {{ex0-file}}
+    @echo ""
+
+    just run 0 {{test-file}}
 
 [group('run')]
 [group('test')]
 testrun1:
-    printf "\n" | just run 1 {{ex1-file}}
-    just run 1 {{ex1-file}} <<<  {{new_file_name}}
-    cat {{new_file_name}}
-    echo "hello world!" > {{new_file_name}} 
-    cat {{new_file_name}}
-    just run 1 {{ex1-file}} <<< {{new_file_name}}
-    cat {{new_file_name}}
-    rm {{new_file_name}}
+    printf "\n" | just run 1 {{test-file}}
+    @echo ""
+
+    just run 1 {{test-file}} <<< {{new-file}}
+    cat {{new-file}}
+    @echo ""
+
+    echo "hello world!" > {{new-file}}
+    cat {{new-file}}
+    just run 1 {{test-file}} <<< {{new-file}}
+    cat {{new-file}}
+    rm {{new-file}}
+
+[group('run')]
+[group('test')]
+testrun2:
+    -just run 2 foo
+    @echo ""
+
+    just run 2 {{test-file}} <<< /etc/passwd
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
