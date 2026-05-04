@@ -36,7 +36,7 @@ def main() -> None:
         file.close()
         print(f"File '{file_path}' closed")
 
-    new_contents: str = "\n".join(line + "#" for line in file_contents.splitlines())
+    new_contents: str = "\n".join(line + "#" for line in file_contents.splitlines()) + "\n"
 
     print("Transform data:")
     print("---\n")
@@ -49,14 +49,20 @@ def main() -> None:
         print("Not saving data")
         return
 
+    new_file: typing.IO | None = None
     try:
-        new_file: typing.IO = open(new_file_path, "w")
+        new_file = open(new_file_path, "w")
+
         print(f"Saving data to '{new_file_path}'")
         new_file.write(new_contents)
-        print(f"Data saved in file '{new_file_path}'.")
 
+        print(f"Data saved in file '{new_file_path}'.")
     except Exception as e:
         print(f"Error error writing file '{new_file_path}': {e}")
+    finally:
+        if new_file is not None:
+            new_file.close()
+            print(f"new_File '{new_file_path}' closed")
 
 
 if __name__ == "__main__":

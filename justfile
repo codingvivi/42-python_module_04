@@ -5,8 +5,12 @@ name := "python_module_04"
 
 
 src-dir := root-dir / "src"
-test_file_name := "ancient_text.txt"
+
+test_file_name := "ancient_fragment.txt"
 ex0-file := src-dir / "ex0" / test_file_name
+
+ex1-file := src-dir / "ex1" / test_file_name
+new_file_name := "new_fragment.txt"
 
 dist-dir := root-dir / "dist"
 stage-dir := dist-dir / name + "_turnin"
@@ -40,6 +44,19 @@ testrun0:
     -just run 0 foo
     -just run 0 /etc/shadow
     just run 0 {{ex0-file}}
+
+[group('run')]
+[group('test')]
+testrun1:
+    printf "\n" | just run 1 {{ex1-file}}
+    just run 1 {{ex1-file}} <<<  {{new_file_name}}
+    cat {{new_file_name}}
+    echo "hello world!" > {{new_file_name}} 
+    cat {{new_file_name}}
+    just run 1 {{ex1-file}} <<< {{new_file_name}}
+    cat {{new_file_name}}
+    rm {{new_file_name}}
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # dist
