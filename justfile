@@ -75,6 +75,17 @@ testrun2:
 
     just run 2 {{test-file}} <<< /etc/passwd
 
+[group('run')]
+[group('test')]
+testrun3:
+    -rm -f {{new-file}}
+    cd {{data-dir}} && python3 {{src-dir}}/ex3/*.py
+    @echo ""
+    @echo "--- contents of {{new-file}} ---"
+    cat {{new-file}}
+    @echo "--- end ---"
+    rm {{new-file}}
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # dist
@@ -127,10 +138,20 @@ checks-dist:
 test-mypy:
     uv run mypy --check-untyped-defs {{src-dir}}
 
-# run ruff/flake8 across src/
+# run ruff across src/
 [group('test')]
-test-lint *args:
+test-ruff *args:
     uv run ruff check {{src-dir}} {{args}}
+
+# run flake8 across src/
+[group('test')]
+test-flake8 *args:
+    uv run flake8 {{src-dir}} {{args}}
+
+[group('test')]
+test-lint:
+    just test-ruff
+    just test-flake8
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # clean

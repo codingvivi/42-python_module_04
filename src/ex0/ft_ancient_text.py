@@ -18,7 +18,7 @@ def main() -> None:
     print(f"Accessing file '{file_path}'")
 
     try:
-        file: typing.IO = open(file_path, "r")
+        file: typing.IO[str] = open(file_path, "r")
     except Exception as e:
         print(f"Error opening file '{file_path}': {e}")
         return

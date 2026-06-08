@@ -18,10 +18,14 @@ def main() -> None:
     print(f"Accessing file '{file_path}'")
 
     try:
-        file: typing.IO = open(file_path, "r")
+        file: typing.IO[str] = open(file_path, "r")
     except Exception as e:
         sys.stdout.flush()
-        print(f"[STDERR] Error opening file '{file_path}': {e}", file=sys.stderr, flush=True)
+        print(
+            f"[STDERR] Error opening file '{file_path}': {e}",
+            file=sys.stderr,
+            flush=True,
+        )
         return
 
     try:
@@ -32,13 +36,19 @@ def main() -> None:
         print("---")
     except Exception as e:
         sys.stdout.flush()
-        print(f"[STDERR] Error opening file '{file_path}': {e}", file=sys.stderr, flush=True)
+        print(
+            f"[STDERR] Error opening file '{file_path}': {e}",
+            file=sys.stderr,
+            flush=True,
+        )
         return
     finally:
         file.close()
         print(f"File '{file_path}' closed")
 
-    new_contents: str = "\n".join(line + "#" for line in file_contents.splitlines()) + "\n"
+    new_contents: str = (
+        "\n".join(line + "#" for line in file_contents.splitlines()) + "\n"
+    )
 
     print("Transform data:")
     print("---\n")
@@ -52,7 +62,7 @@ def main() -> None:
         print("Not saving data")
         return
 
-    new_file: typing.IO | None = None
+    new_file: typing.IO[str] | None = None
     try:
         new_file = open(new_file_path, "w")
 
@@ -64,7 +74,9 @@ def main() -> None:
     except Exception as e:
         sys.stdout.flush()
         print(
-            f"[STDERR] Error error writing file '{new_file_path}': {e}", file=sys.stderr, flush=True
+            f"[STDERR] Error error writing file '{new_file_path}': {e}",
+            file=sys.stderr,
+            flush=True,
         )
         print("Data not saved")
     finally:
