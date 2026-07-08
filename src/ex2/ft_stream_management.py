@@ -12,13 +12,13 @@ def main() -> None:
         print(f"Usage: {sys.argv[0]} <file>")
         return
 
-    print_header("Cyber archives recovery")
+    print_header("Cyber Archives Recovery & Preservation")
 
     file_path: str = sys.argv[1]
     print(f"Accessing file '{file_path}'")
 
     try:
-        file: typing.IO[str] = open(file_path, "r")
+        file: typing.IO[str] = open(file_path)
     except Exception as e:
         sys.stdout.flush()
         print(
@@ -74,7 +74,7 @@ def main() -> None:
     except Exception as e:
         sys.stdout.flush()
         print(
-            f"[STDERR] Error error writing file '{new_file_path}': {e}",
+            f"[STDERR] Error writing file '{new_file_path}': {e}",
             file=sys.stderr,
             flush=True,
         )

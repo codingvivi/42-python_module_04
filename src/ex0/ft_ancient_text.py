@@ -12,13 +12,13 @@ def main() -> None:
         print(f"Usage: {sys.argv[0]} <file>")
         return
 
-    print_header("Cyber archives recovery")
+    print_header("Cyber Archives Recovery")
 
     file_path: str = sys.argv[1]
     print(f"Accessing file '{file_path}'")
 
     try:
-        file: typing.IO[str] = open(file_path, "r")
+        file: typing.IO[str] = open(file_path)
     except Exception as e:
         print(f"Error opening file '{file_path}': {e}")
         return

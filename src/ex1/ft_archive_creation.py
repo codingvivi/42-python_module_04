@@ -12,13 +12,13 @@ def main() -> None:
         print(f"Usage: {sys.argv[0]} <file>")
         return
 
-    print_header("Cyber archives recovery")
+    print_header("Cyber Archives Recovery & Preservation")
 
     file_path: str = sys.argv[1]
     print(f"Accessing file '{file_path}'")
 
     try:
-        file: typing.IO[str] = open(file_path, "r")
+        file: typing.IO[str] = open(file_path)
     except Exception as e:
         print(f"Error opening file '{file_path}': {e}")
         return
@@ -60,7 +60,7 @@ def main() -> None:
 
         print(f"Data saved in file '{new_file_path}'.")
     except Exception as e:
-        print(f"Error error writing file '{new_file_path}': {e}")
+        print(f"Error writing file '{new_file_path}': {e}")
     finally:
         if new_file is not None:
             new_file.close()
