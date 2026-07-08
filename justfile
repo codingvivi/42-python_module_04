@@ -110,6 +110,7 @@ dist tag="":
 # rsync turnin files
 [group('dist')]
 stage:
+    rm -rf {{stage-dir}}
     mkdir -p {{stage-dir}}
     rsync -vhacP --filter=':- .gitignore' --exclude='*.txt' src/ {{stage-dir}}/
 
